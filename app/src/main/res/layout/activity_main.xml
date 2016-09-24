@@ -19,4 +19,22 @@
         map:mapType="normal"
         map:uiZoomGestures="true"/>
 
+    <Button
+        android:text="Ping localhost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp"
+        android:id="@+id/pingButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pingButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:textSize="18sp"
+        android:id="@+id/pingResult" />
+
 </RelativeLayout>

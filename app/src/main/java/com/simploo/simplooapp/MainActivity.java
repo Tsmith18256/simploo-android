@@ -8,6 +8,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -15,13 +18,28 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.simploo.simplooapp.ApiClient.PingInterface;
+import com.simploo.simplooapp.DataModel.Ping;
 import com.simploo.simplooapp.Util.PermissionUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
         implements
         OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback {
+
+    /**
+     * Ping localhost test
+     */
+    private static final String ENDPOINT_URL = "http://10.10.39.35:5000";
+    private TextView pingRslt;
+    private PingInterface getPing;
 
     /**
      * Request code for location permission request.
@@ -52,8 +70,52 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create Retrofit instance to ping localhost
+        Retrofit rf = new Retrofit.Builder()
+                .baseUrl(ENDPOINT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        getPing = rf.create(PingInterface.class);
+
+        //Connect button code to UI
+        Button pingBtn = (Button) findViewById(R.id.pingButton);
+        pingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ping();
+            }
+        });
+
+        //Connect textview code to UI
+        pingRslt = (TextView) findViewById(R.id.pingResult);
+
         mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
+    }
+
+    private void ping() {
+        Call<Ping> call = getPing.ping();
+        call.enqueue(new Callback<Ping>() {
+            @Override
+            public void onResponse(Call<Ping> call, Response<Ping> response) {
+                displayPing(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Ping> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void displayPing(Ping response) {
+        if(response != null){
+            String tmp = "Ping localhost: " + response.getSuccess();
+            pingRslt.setText(tmp);
+
+        } else {
+            pingRslt.setText("Error getting ping");
+        }
     }
 
     @Override
