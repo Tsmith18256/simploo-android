@@ -1,6 +1,7 @@
 package com.simploo.simplooapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,8 +21,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.simploo.simplooapp.ApiClient.PingInterface;
+import com.simploo.simplooapp.ApiClient.WashroomInterface;
 import com.simploo.simplooapp.DataModel.Ping;
+import com.simploo.simplooapp.DataModel.Washroom;
 import com.simploo.simplooapp.Util.PermissionUtils;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,8 +44,8 @@ public class MainActivity extends AppCompatActivity
      * Ping localhost test
      */
     private static final String ENDPOINT_URL = "http://10.10.39.35:5000";
-    private TextView pingRslt;
-    private PingInterface getPing;
+    private TextView washroomRslt;
+    private WashroomInterface getWashroom;
 
     /**
      * Request code for location permission request.
@@ -75,46 +81,61 @@ public class MainActivity extends AppCompatActivity
                 .baseUrl(ENDPOINT_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        getPing = rf.create(PingInterface.class);
+        getWashroom = rf.create(WashroomInterface.class);
 
         //Connect button code to UI
-        Button pingBtn = (Button) findViewById(R.id.pingButton);
-        pingBtn.setOnClickListener(new View.OnClickListener() {
+        Button washroomBtn = (Button) findViewById(R.id.washroomButton);
+        washroomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ping();
+                loadWashrooms();
             }
         });
 
         //Connect textview code to UI
-        pingRslt = (TextView) findViewById(R.id.pingResult);
+        washroomRslt = (TextView) findViewById(R.id.washroomResult);
 
         mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
     }
 
-    private void ping() {
-        Call<Ping> call = getPing.ping();
-        call.enqueue(new Callback<Ping>() {
+    private void loadWashrooms() {
+        Call<List<Washroom>> call = getWashroom.allWashrooms();
+        call.enqueue(new Callback<List<Washroom>>() {
             @Override
-            public void onResponse(Call<Ping> call, Response<Ping> response) {
-                displayPing(response.body());
+            public void onResponse(Call<List<Washroom>> call, Response<List<Washroom>> response) {
+                List<Washroom> results = response.body();
+                displayWashrooms(results);
             }
 
             @Override
-            public void onFailure(Call<Ping> call, Throwable t) {
+            public void onFailure(Call<List<Washroom>> call, Throwable t) {
+                System.out.println("I fucked up!!: " + t.getMessage());
 
+                Context context = getApplicationContext();
+                CharSequence text = "This is a toast to tell you I fucked up!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         });
     }
 
-    private void displayPing(Ping response) {
+    private void displayWashrooms(List<Washroom> response) {
         if(response != null){
-            String tmp = "Ping localhost: " + response.getSuccess();
-            pingRslt.setText(tmp);
+            System.out.println("here");
+            List<Washroom> washrooms = response;
+
+            String tmp = "";
+            for(Washroom washroom: washrooms){
+                tmp += washroom.getId() + " | " + washroom.getName();
+            }
+
+            washroomRslt.setText(tmp);
 
         } else {
-            pingRslt.setText("Error getting ping");
+            washroomRslt.setText("Error getting washrooms");
         }
     }
 
