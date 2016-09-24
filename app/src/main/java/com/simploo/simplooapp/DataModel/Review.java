@@ -86,6 +86,4 @@ public class Review {
 
     //END OF GETTERS AND SETTERS
 
-
-
 }

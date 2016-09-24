@@ -11,7 +11,38 @@
     tools:context="com.simploo.simplooapp.MainActivity">
 
     <TextView
-        android:text="Hello World!"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/resultTv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:textSize="18sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get All"
+        android:layout_below="@id/resultTv"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/getallBtn"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="One Todo"
+        android:layout_marginTop="20dp"
+        android:id="@+id/oneBtn"
+        android:layout_below="@+id/getallBtn"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ping Localhost"
+        android:layout_marginTop="20dp"
+        android:id="@+id/pingBtn"
+        android:layout_below="@+id/oneBtn"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
