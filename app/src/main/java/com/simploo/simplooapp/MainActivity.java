@@ -1,7 +1,9 @@
 package com.simploo.simplooapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -17,12 +20,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.simploo.simplooapp.Util.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity
         implements
         OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMyLocationButtonClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -91,6 +100,10 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(this);
+
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.style_map);
+        mMap.setMapStyle(style);
+
         enableMyLocation();
     }
 
@@ -149,10 +162,30 @@ public class MainActivity extends AppCompatActivity
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
             lastLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
             mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLoc.getLatitude(),
                     lastLoc.getLongitude())));
+
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    /**
+     * BUTTON ACTIONS
+     */
+
+    public void goToSettings(View view) {
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+    }
+
+    public void centerCamera(View view) {
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLoc.getLatitude(),
+                lastLoc.getLongitude())));
     }
 }

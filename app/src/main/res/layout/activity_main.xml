@@ -1,22 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.simploo.simplooapp.MainActivity"
     tools:ignore="MissingPrefix">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.MapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        map:cameraTargetLat="49.282"
-        map:cameraTargetLng="-123.1171"
-        map:cameraZoom="17"
-        map:mapType="normal"
-        map:uiZoomGestures="true"/>
+        android:layout_height="60dp"
+        android:background="@color/simplooOffWhite">
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_settings"
+            android:background="@null"
+            android:onClick="goToSettings"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:cameraTargetLat="49.282"
+            map:cameraTargetLng="-123.1171"
+            map:cameraZoom="17"
+            map:mapType="normal"
+            map:uiZoomGestures="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_map_camera"
+            android:background="@null"
+            android:onClick="centerCamera"/>
+    </RelativeLayout>
+
+</LinearLayout>
