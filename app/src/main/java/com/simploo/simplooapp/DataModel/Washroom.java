@@ -13,7 +13,6 @@ public class Washroom {
     private boolean hasWheelchairAccess;
     private float overallRating;
 
-
     public Washroom() {
         this.id = -1;
         this.name = null;
