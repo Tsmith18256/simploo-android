@@ -8,18 +8,18 @@ public class Washroom {
     private long id;
     private String name;
     private String description;
-    private float lat;
-    private float lng;
+    private float latitude;
+    private float longitude;
     private boolean hasWheelchairAccess;
-
     private float overallRating;
+
 
     public Washroom() {
         this.id = -1;
         this.name = null;
         this.description = null;
-        this.lat = -1;
-        this.lng = -1;
+        this.latitude = -1;
+        this.longitude = -1;
         this.hasWheelchairAccess = false;
         this.overallRating = -1;
     }
@@ -49,19 +49,19 @@ public class Washroom {
     }
 
     public float getLat() {
-        return lat;
+        return latitude;
     }
 
-    public void setLat(float lat) {
-        this.lat = lat;
+    public void setLat(float latitude) {
+        this.latitude = latitude;
     }
 
     public float getLng() {
-        return lng;
+        return longitude;
     }
 
-    public void setLng(float lng) {
-        this.lng = lng;
+    public void setLng(float longitude) {
+        this.longitude = longitude;
     }
 
     public boolean hasWheelchairAccess() {
