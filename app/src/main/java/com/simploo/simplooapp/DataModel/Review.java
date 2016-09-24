@@ -5,18 +5,18 @@ package com.simploo.simplooapp.DataModel;
  */
 public class Review {
     //All ID's used.
-    private long id;
-    private long userId;
-    private long washroomId;
+    private static long id;
+    private static long userId;
+    private static long washroomId;
 
     //Body of the review
-    private String reviewDescription;
+    private static String reviewDescription;
 
     //totalRating = (cleaninessRating + privacyRating + safetyRating + accessibiltyRating)/4
-    private int cleaninessRating;
-    private int privacyRating;
-    private int safetyRating;
-    private int accessibiltyRating;
+    private static int cleaninessRating;
+    private static int privacyRating;
+    private static int safetyRating;
+    private static int accessibiltyRating;
 
     //BEGINNING OF GETTERS AND SETTERS
 
@@ -86,5 +86,6 @@ public class Review {
 
     //END OF GETTERS AND SETTERS
 
-    
+
+
 }
