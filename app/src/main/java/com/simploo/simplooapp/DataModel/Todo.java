@@ -3,6 +3,9 @@ package com.simploo.simplooapp.DataModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Todo {
 
     @SerializedName("id")
@@ -14,6 +17,28 @@ public class Todo {
     @SerializedName("completed")
     @Expose
     private Boolean completed;
+
+    @SerializedName("todos")
+    @Expose
+    private List<Todo> todos = new ArrayList<Todo>();
+
+    /**
+     *
+     * @return
+     * The todos
+     */
+    public List<Todo> getTodos() {
+        return todos;
+    }
+
+    /**
+     *
+     * @param todos
+     * The todos
+     */
+    public void setTodos(List<Todo> todos) {
+        this.todos = todos;
+    }
 
     /**
      *

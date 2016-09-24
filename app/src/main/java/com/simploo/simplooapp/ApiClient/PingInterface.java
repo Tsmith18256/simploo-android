@@ -10,6 +10,6 @@ import retrofit2.http.GET;
  */
 
 public interface PingInterface {
-    @GET("/api")
+    @GET("/api/")
     Call<Ping> ping();
 }

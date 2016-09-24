@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface TodoInterface {
     @GET("/tmp/todos")
-    Call<Result> all();
+    Call<Todo> all();
 
     @GET("/tmp/{id}/todo")
     Call<Todo> select(@Path("id") int id);
