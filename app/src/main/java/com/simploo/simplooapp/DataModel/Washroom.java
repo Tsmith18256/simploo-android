@@ -3,7 +3,7 @@ package com.simploo.simplooapp.DataModel;
 /**
  * Created by Jerry Tsai on 16-09-23.
  */
-public class WashroomModel {
+public class Washroom {
 
     private long id;
     private String name;
@@ -14,7 +14,7 @@ public class WashroomModel {
 
     private float overallRating;
 
-    public WashroomModel() {
+    public Washroom() {
         this.id = -1;
         this.name = null;
         this.description = null;
