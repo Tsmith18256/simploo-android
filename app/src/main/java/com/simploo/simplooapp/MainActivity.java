@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    protected SimplooApplication app = new SimplooApplication();
+    protected SimplooApplication apiAdapter = new SimplooApplication();
 
     /**
      * Request code for location permission request.
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        app.init();
+        apiAdapter.init("washroom");
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadWashrooms() {
-        app.getAllWashrooms(new Callback<List<Washroom>>() {
+        apiAdapter.getAllWashrooms(new Callback<List<Washroom>>() {
             @Override
             public void onResponse(Call<List<Washroom>> call, Response<List<Washroom>> response) {
                 List<Washroom> washroomList = response.body();

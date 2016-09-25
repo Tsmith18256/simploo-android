@@ -21,22 +21,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final String BASE_URL = "http://192.168.1.78:5000";
-    private Retrofit rf;
-    private LoginInterface loginAPI;
-
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    protected SimplooApplication apiAdapter = new SimplooApplication();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rf = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        loginAPI = rf.create(LoginInterface.class);
+        apiAdapter.init("login");
+
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_settings);
@@ -55,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
                 tokenRequest.setAccess_token(fbToken);
                 tokenRequest.setSocial_network("facebook");
 
-                getTokenResponse(tokenRequest, new Callback<TokenResponse>() {
+                apiAdapter.getTokenResponse(tokenRequest, new Callback<TokenResponse>() {
                     @Override
                     public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                         int statusCode = response.code();
@@ -67,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<TokenResponse> call, Throwable t) {
-                        System.out.println("failed");
+                        System.out.println("failed: " + t.getMessage());
 
                     }
                 });
@@ -85,12 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void getTokenResponse(TokenRequest tokenRequest, Callback<TokenResponse> cb) {
-//        Call<TokenResponse> call = loginAPI.getTokenAccess("application/json", tokenRequest);
-        Call<TokenResponse> call = loginAPI.getTokenAccess(tokenRequest);
-        call.enqueue(cb);
     }
 
     @Override

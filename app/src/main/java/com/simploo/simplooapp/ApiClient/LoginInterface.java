@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 
 public interface LoginInterface {
     @Headers("Content-Type: Application/Json")
-    @POST("/api/login/")
+    @POST("login/")
 //    Call<TokenResponse> getTokenAccess(@Header("Content-Type") String contentType, @Body TokenRequest tokenRequest);
     Call<TokenResponse> getTokenAccess(@Body TokenRequest tokenRequest);
 

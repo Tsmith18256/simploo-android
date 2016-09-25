@@ -13,9 +13,9 @@ import retrofit2.http.Path;
  */
 
 public interface WashroomInterface {
-    @GET("/api/washrooms/")
+    @GET("washrooms/")
     Call<List<Washroom>> allWashrooms();
 
-    @GET("/api/{id}/washroom/")
+    @GET("{id}/washroom/")
     Call<Washroom> select(@Path("id") long id);
 }
