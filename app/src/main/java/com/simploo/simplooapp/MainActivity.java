@@ -1,14 +1,19 @@
 package com.simploo.simplooapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,12 +22,17 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.simploo.simplooapp.ApiClient.PingInterface;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.simploo.simplooapp.ApiClient.WashroomInterface;
-import com.simploo.simplooapp.DataModel.Ping;
 import com.simploo.simplooapp.DataModel.Washroom;
 import com.simploo.simplooapp.Util.PermissionUtils;
 
@@ -37,15 +47,21 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity
         implements
         OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMyLocationButtonClickListener,
-        ActivityCompat.OnRequestPermissionsResultCallback {
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     /**
      * Ping localhost test
      */
     private static final String ENDPOINT_URL = "http://10.10.39.35:5000";
     private TextView washroomRslt;
-    private WashroomInterface getWashroom;
+    private WashroomInterface washroomAPI;
+
+    protected SimplooApplication app = new SimplooApplication();
+
 
     /**
      * Request code for location permission request.
@@ -60,83 +76,86 @@ public class MainActivity extends AppCompatActivity
      */
     private boolean mPermissionDenied = false;
 
+    GoogleApiClient mGoogleApiClient;
     private MapFragment mMapFragment;
     private GoogleMap mMap;
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        mMap.setOnMyLocationButtonClickListener(this);
-        enableMyLocation();
-    }
+    Location lastLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create Retrofit instance to ping localhost
-        Retrofit rf = new Retrofit.Builder()
-                .baseUrl(ENDPOINT_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        getWashroom = rf.create(WashroomInterface.class);
+        app.init();
 
-        //Connect button code to UI
-        Button washroomBtn = (Button) findViewById(R.id.washroomButton);
-        washroomBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadWashrooms();
-            }
-        });
-
-        //Connect textview code to UI
-        washroomRslt = (TextView) findViewById(R.id.washroomResult);
-
-        mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mMapFragment.getMapAsync(this);
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
     }
 
     private void loadWashrooms() {
-        Call<List<Washroom>> call = getWashroom.allWashrooms();
-        call.enqueue(new Callback<List<Washroom>>() {
+        app.getAllWashrooms(new Callback<List<Washroom>>() {
             @Override
             public void onResponse(Call<List<Washroom>> call, Response<List<Washroom>> response) {
-                List<Washroom> results = response.body();
-                displayWashrooms(results);
+                List<Washroom> washroomList = response.body();
+                for (Washroom washroom : washroomList) {
+                    LatLng latLng = new LatLng(washroom.getLatitude(), washroom.getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromAsset("icons/Map-Marker.png")));
+                }
             }
 
             @Override
             public void onFailure(Call<List<Washroom>> call, Throwable t) {
-                System.out.println("I fucked up!!: " + t.getMessage());
-
-                Context context = getApplicationContext();
-                CharSequence text = "This is a toast to tell you I fucked up!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
+                Toast toast = Toast.makeText(getApplicationContext(), "Error fetching data from " +
+                        "server.", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
     }
 
-    private void displayWashrooms(List<Washroom> response) {
-        if(response != null){
-            System.out.println("here");
-            List<Washroom> washrooms = response;
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
 
-            String tmp = "";
-            for(Washroom washroom: washrooms){
-                tmp += washroom.getId() + " | " + washroom.getName();
-            }
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
 
-            washroomRslt.setText(tmp);
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mMapFragment.getMapAsync(this);
+    }
 
-        } else {
-            washroomRslt.setText("Error getting washrooms");
-        }
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMyLocationButtonClickListener(this);
+
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.style_map);
+        mMap.setMapStyle(style);
+
+        enableMyLocation();
+        loadWashrooms();
     }
 
     @Override
@@ -194,6 +213,30 @@ public class MainActivity extends AppCompatActivity
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            lastLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLoc.getLatitude(),
+                    lastLoc.getLongitude())));
+
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    /**
+     * BUTTON ACTIONS
+     */
+
+    public void goToSettings(View view) {
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+    }
+
+    public void centerCamera(View view) {
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLoc.getLatitude(),
+                lastLoc.getLongitude())));
     }
 }

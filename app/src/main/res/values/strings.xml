@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Simploo App</string>
 
+    <!--Main Activity Screen-->
+    <string name="activity_main_settings_button">Settings</string>
+
     <!--Permissions-->
     <string name="permission_rationale_location">We need your location.</string>
     <string name="permission_required_toast">Permission required.</string>

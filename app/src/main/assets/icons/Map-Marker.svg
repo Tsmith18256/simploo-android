@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="25px" viewBox="0 0 16 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Map-Pin</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Map-Pin">
+            <g>
+                <ellipse id="Oval" fill-opacity="0.2" fill="#000000" cx="7.93173333" cy="21.9142857" rx="7.93173333" ry="3.08571429"></ellipse>
+                <path d="M5.43948359,1.21739666 C2.15814954,2.23032529 0,5.35023086 0,8.76045949 L0,8.76045949 L0,11.7309341 L0,11.7309341 C0,14.49434 1.42442173,16.9247283 3.58257127,18.3464574 L6.83485745,21.1312106 C7.50403443,21.7054526 8.49596557,21.7054526 9.16514255,21.1312106 L12.4174287,18.3464574 C14.5755783,16.9247283 16,14.49434 16,11.7309341 L16,11.7309341 L16,8.76045949 L16,8.76045949 C16,3.55278954 10.9467456,-0.482914519 5.43948359,1.21739666" id="Fill-1" fill="#2A2A2A"></path>
+                <circle id="Oval-2" fill="#FFFFFF" cx="8" cy="8" r="3"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
