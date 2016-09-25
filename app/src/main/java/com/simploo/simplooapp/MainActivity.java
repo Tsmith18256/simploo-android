@@ -53,15 +53,7 @@ public class MainActivity extends AppCompatActivity
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    /**
-     * Ping localhost test
-     */
-    private static final String ENDPOINT_URL = "http://10.10.39.35:5000";
-    private TextView washroomRslt;
-    private WashroomInterface washroomAPI;
-
     protected SimplooApplication app = new SimplooApplication();
-
 
     /**
      * Request code for location permission request.
