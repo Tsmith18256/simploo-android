@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape>
+                    <corners android:radius="72dp"/>
+                    <solid android:color="@color/simplooOverlay"/>
+                    <padding android:bottom="4dp"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/simplooWhite"/>
+                    <corners android:radius="36dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

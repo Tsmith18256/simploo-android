@@ -1,8 +1,7 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="@color/simplooFragmentBg"
              tools:context="com.simploo.simplooapp.WashroomDetailsFragment">
 
     <LinearLayout
@@ -33,6 +32,68 @@
                 android:textSize="@dimen/header_bar_title"/>
         </RelativeLayout>
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_shape_modal"
+            android:src="@drawable/ic_direction"
+            android:onClick="openRoutingInGoogleMaps"/>
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/bg_shape_modal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fragment_washroom_details_header_height">
+
+            <TextView
+                android:id="@+id/washroom_details_rating_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/simplooCharcoal"
+                android:textSize="@dimen/fragment_washroom_details_header_title"/>
+
+            <FrameLayout
+                android:id="@+id/washroom_details_rating_bar_bg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fragment_washroom_details_bar_height"
+                android:layout_marginLeft="50dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_shape_rating_bar_bg"/>
+
+            <FrameLayout
+                android:id="@+id/washroom_details_rating_bar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/fragment_washroom_details_bar_height"
+                android:layout_marginLeft="50dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_shape_rating_bar"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fragment_washroom_details_subheader_height">
+
+            <TextView
+                android:id="@+id/washroom_details_rating_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="3dp"
+                android:text="@string/fragment_washroom_detail_rating_label"
+                android:textColor="@color/simplooDarkGrey"
+                android:textSize="@dimen/fragment_washroom_details_label"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

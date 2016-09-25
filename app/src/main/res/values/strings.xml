@@ -5,6 +5,15 @@
     <string name="activity_main_header_title">Simploo</string>
     <string name="activity_main_settings_button">Settings</string>
 
+    <!--Washroom Details Fragment-->
+    <string name="fragment_washroom_detail_rating_label">RATING</string>
+    <string name="fragment_washroom_detail_clean_label">CLEANLINESS</string>
+    <string name="fragment_washroom_detail_privacy_label">PRIVACY</string>
+    <string name="fragment_washroom_detail_accessibility_label">ACCESSIBILITY</string>
+    <string name="fragment_washroom_detail_safety_label">SAFETY</string>
+    <string name="fragment_washroom_detail_features_label">FEATURES</string>
+
+
     <!--Permissions-->
     <string name="permission_rationale_location">We need your location.</string>
     <string name="permission_required_toast">Permission required.</string>

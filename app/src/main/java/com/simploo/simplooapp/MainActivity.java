@@ -1,6 +1,7 @@
 package com.simploo.simplooapp;
 
 import android.Manifest;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
@@ -93,17 +94,19 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<List<Washroom>> call, Response<List<Washroom>> response) {
                 List<Washroom> washroomList = response.body();
-                for (Washroom washroom : washroomList) {
-                    String title = washroom.getName();
-                    LatLng latLng = new LatLng(washroom.getLatitude(), washroom.getLongitude());
+                if (washroomList != null) {
+                    for (Washroom washroom : washroomList) {
+                        String title = washroom.getName();
+                        LatLng latLng = new LatLng(washroom.getLatitude(), washroom.getLongitude());
 
-                    Marker marker = mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .icon(BitmapDescriptorFactory.fromAsset("icons/Map-Marker.png"))
-                            .title(title));
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .icon(BitmapDescriptorFactory.fromAsset("icons/Map-Marker.png"))
+                                .title(title));
 
-                    /// We need this because Marker is a final class and we cannot extend it
-                    allMarkersMap.put(marker, washroom);
+                        /// We need this because Marker is a final class and we cannot extend it
+                        allMarkersMap.put(marker, washroom);
+                    }
                 }
             }
 
@@ -166,6 +169,16 @@ public class MainActivity extends AppCompatActivity
                 ft.commit();
 
                 return false;
+            }
+        });
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (washroomDetailsFragment != null) {
+                    washroomDetailsFragment.getView().setVisibility(View.GONE);
+                    washroomDetailsFragment = null;
+                }
             }
         });
     }
@@ -248,9 +261,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void dismissFragment(View view) {
-        if (washroomDetailsFragment !=null) {
+        if (washroomDetailsFragment != null) {
             washroomDetailsFragment.getView().setVisibility(View.GONE);
             washroomDetailsFragment = null;
+        }
+    }
+
+    public void openRoutingInGoogleMaps(View view) {
+        if (washroomDetailsFragment != null) {
+            Washroom washroom = washroomDetailsFragment.getWashroom();
+
+            String mapArg = "geo:0,0?q=" + washroom.getLatitude() + "," + washroom.getLongitude();
+            mapArg += "(" + washroom.getName() + ")";
+
+            Uri gmmIntentUri = Uri.parse(mapArg);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
         }
     }
 }

@@ -47,7 +47,6 @@ public class SimplooApplication {
     }
 
     public void getTokenResponse(TokenRequest tokenRequest, Callback<TokenResponse> cb) {
-//        Call<TokenResponse> call = loginAPI.getTokenAccess("application/json", tokenRequest);
         Call<TokenResponse> call = loginAPI.getTokenAccess(tokenRequest);
         call.enqueue(cb);
     }
