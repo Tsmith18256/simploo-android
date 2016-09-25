@@ -158,11 +158,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Washroom washroom = allMarkersMap.get(marker);
-                Log.d("Name", washroom.getName());
 
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                washroomDetailsFragment = new WashroomDetailsFragment();
+                washroomDetailsFragment = WashroomDetailsFragment.newInstance(washroom);
+
                 ft.add(R.id.washroom_details_fragment_container, washroomDetailsFragment);
                 ft.commit();
 
