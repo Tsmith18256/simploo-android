@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Simploo App</string>
+    <string name="app_name">Simploo</string>
 
     <!--Main Activity Screen-->
     <string name="activity_main_header_title">Simploo</string>
