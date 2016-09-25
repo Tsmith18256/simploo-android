@@ -1,7 +1,5 @@
 package com.simploo.simplooapp;
 
-import android.app.Application;
-
 import com.simploo.simplooapp.ApiClient.LoginInterface;
 import com.simploo.simplooapp.ApiClient.WashroomInterface;
 import com.simploo.simplooapp.DataModel.TokenRequest;

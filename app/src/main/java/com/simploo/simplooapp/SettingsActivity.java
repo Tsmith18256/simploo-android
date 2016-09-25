@@ -3,7 +3,11 @@ package com.simploo.simplooapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -11,8 +15,12 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.simploo.simplooapp.ApiClient.LoginInterface;
+import com.simploo.simplooapp.DataModel.ServerToken;
 import com.simploo.simplooapp.DataModel.TokenRequest;
 import com.simploo.simplooapp.DataModel.TokenResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +31,7 @@ import retrofit2.Retrofit;
 public class SettingsActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    private AccessTokenTracker fbLogoutTracker;
     protected SimplooApplication apiAdapter = new SimplooApplication();
 
     @Override
@@ -37,14 +46,29 @@ public class SettingsActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.fbLogin);
+        List<String> fbPermissions = new ArrayList<>();
+        fbPermissions.add("email");
+        loginButton.setReadPermissions(fbPermissions);
+
+        fbLogoutTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if(currentAccessToken == null){
+                    Log.d("FB", "User Logged Out.");
+                    Toast.makeText(SettingsActivity.this, "You've been logged out.", Toast.LENGTH_SHORT).show();
+                    ServerToken.serverToken = null;
+                    finish();
+                }
+            }
+        };
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // App code
+                //Pass Facebook access token to server to get a server access token
                 String fbToken = loginResult.getAccessToken().getToken();
 
-                TokenRequest tokenRequest = new TokenRequest();
+                final TokenRequest tokenRequest = new TokenRequest();
 
                 tokenRequest.setAccess_token(fbToken);
                 tokenRequest.setSocial_network("facebook");
@@ -56,13 +80,13 @@ public class SettingsActivity extends AppCompatActivity {
 
                         TokenResponse tokenResponse = response.body();
 
-                        System.out.println(statusCode);
+                        ServerToken.serverToken =  tokenResponse.getAccess_token();
+                        finish();
                     }
 
                     @Override
                     public void onFailure(Call<TokenResponse> call, Throwable t) {
-                        System.out.println("failed: " + t.getMessage());
-
+                        Log.e("Token Error: ", t.getMessage());
                     }
                 });
 
@@ -70,12 +94,13 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                // App code
+                //TODO: Possible indication that user has cancelled
             }
 
             @Override
             public void onError(FacebookException e) {
-                // App code
+                Log.e("Facebook Login Error: ", e.getMessage());
+                Toast.makeText(SettingsActivity.this, "Oh no! Something has gone wrong!", Toast.LENGTH_SHORT).show();
             }
         });
 
