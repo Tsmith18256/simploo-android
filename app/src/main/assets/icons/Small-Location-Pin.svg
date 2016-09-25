@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="9px" height="12px" viewBox="0 0 9 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Small-Location-Pin</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.5">
+        <g id="Location-Tile" transform="translate(-18.000000, -74.000000)" fill="#2A2A2A">
+            <g id="Group-2" transform="translate(18.000000, 72.000000)">
+                <path d="M3.3164,5.331 C3.7554,4.892 4.4704,4.892 4.9104,5.331 C5.3494,5.77 5.3494,6.485 4.9104,6.925 C4.4704,7.364 3.7554,7.364 3.3164,6.925 C2.8774,6.485 2.8774,5.77 3.3164,5.331 L3.3164,5.331 Z M4.1134,3.503 C2.6424,3.503 1.4884,4.657 1.4884,6.128 C1.4884,6.526 1.5934,6.919 1.7934,7.329 L4.1194,11.677 L6.4454,7.329 C6.6504,6.919 6.7444,6.526 6.7444,6.128 C6.7444,4.657 5.5894,3.503 4.1194,3.503 L4.1134,3.503 Z M4.7934,13.628 C4.6464,13.856 4.3824,14.003 4.1254,14.003 C3.8554,14.003 3.5974,13.851 3.4514,13.593 L0.4514,8.003 C0.1524,7.44 0.0004,6.819 0.0004,6.128 C0.0004,4.622 0.7794,3.292 2.0504,2.554 C3.3224,1.815 4.9274,1.815 6.1994,2.554 C7.4704,3.292 8.2504,4.622 8.2504,6.128 C8.2504,6.802 8.1034,7.435 7.7984,8.038 L4.7984,13.628 L4.7934,13.628 Z" id="Small-Location-Pin"></path>
+            </g>
+        </g>
+    </g>
+</svg>
