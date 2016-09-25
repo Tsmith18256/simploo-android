@@ -6,6 +6,7 @@
 
     <color name="simplooWhite">#FFFFFF</color>
     <color name="simplooOffWhite">#EDF0EF</color>
+    <color name="simplooLightGrey">#DFDCD7</color>
     <color name="simplooDarkGrey">#AFACA7</color>
     <color name="simplooCharcoal">#2A2A2A</color>
     <color name="simplooHighlightPoo">#FFC25E</color>

@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simploo.simplooapp.DataModel.Washroom;
@@ -21,6 +24,9 @@ public class WashroomDetailsFragment extends Fragment {
 
     private TextView washroomNameTextView;
     private TextView washroomRatingTextView;
+
+    private FrameLayout washroomRatingBg;
+    private FrameLayout washroomRatingBar;
 
     public WashroomDetailsFragment() {
         // Required empty public constructor
@@ -48,6 +54,21 @@ public class WashroomDetailsFragment extends Fragment {
 
         washroomRatingTextView = (TextView) v.findViewById(R.id.washroom_details_rating_value);
         washroomRatingTextView.setText("" + mWashroom.getOverallRating());
+
+        washroomRatingBg = (FrameLayout) v.findViewById(R.id.washroom_details_rating_bar_bg);
+        washroomRatingBar = (FrameLayout) v.findViewById(R.id.washroom_details_rating_bar);
+
+        ViewTreeObserver vto = washroomRatingBg.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                washroomRatingBg.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int maxWidth = washroomRatingBg.getMeasuredWidth();
+                ViewGroup.LayoutParams lp = washroomRatingBar.getLayoutParams();
+                lp.width = Math.round(mWashroom.getOverallRating() / 5.0f * maxWidth);
+                washroomRatingBar.setLayoutParams(lp);
+            }
+        });
 
         return v;
     }
