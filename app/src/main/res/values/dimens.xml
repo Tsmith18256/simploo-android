@@ -5,7 +5,16 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="header_bar_title">20dp</dimen>
-    <dimen name="header_bar_subtitle">15dp</dimen>
+    <dimen name="header_bar_subtitle">10dp</dimen>
     <dimen name="header_bar_height">60dp</dimen>
     <dimen name="details_header_bar_height">120dp</dimen>
+
+    <dimen name="fragment_washroom_details_header_title">30dp</dimen>
+    <dimen name="fragment_washroom_details_label">10dp</dimen>
+    <dimen name="fragment_washroom_details_header_height">40dp</dimen>
+    <dimen name="fragment_washroom_details_subheader_height">30dp</dimen>
+
+    <dimen name="fragment_washroom_details_bar_width">60dp</dimen>
+    <dimen name="fragment_washroom_details_bar_height">25dp</dimen>
+
 </resources>

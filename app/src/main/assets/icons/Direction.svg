@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Direction</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Location-Tile" transform="translate(-27.000000, -136.000000)" fill="#231F20">
+            <path d="M28.7939632,145.37918 C27.5364714,145.955531 27.6629809,147.782034 28.9879235,148.179517 L36.5601484,150.451184 L35.5531999,149.441342 L37.8012042,157.013567 C38.195261,158.340917 40.0238423,158.471195 40.6020988,157.213118 L48.9552094,139.039778 C49.5363213,137.77549 48.232216,136.469981 46.9673031,137.049733 L28.7939632,145.37918 Z M46.2293609,137.786882 L37.8762503,155.960222 L40.6771448,156.159772 L38.4291405,148.587548 C38.2852017,148.102701 37.9066236,147.723035 37.4221921,147.577706 L29.8499671,145.306038 L30.0439274,148.106375 L48.2172672,139.776927 L46.2293609,137.786882 Z" id="Direction"></path>
+        </g>
+    </g>
+</svg>

@@ -19,7 +19,8 @@ public class WashroomDetailsFragment extends Fragment {
 
     private Washroom mWashroom;
 
-    private TextView washroomName;
+    private TextView washroomNameTextView;
+    private TextView washroomRatingTextView;
 
     public WashroomDetailsFragment() {
         // Required empty public constructor
@@ -41,12 +42,18 @@ public class WashroomDetailsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_washroom_details, container, false);
 
         mWashroom = (Washroom) getArguments().getSerializable("WASHROOM_BUNDLE");
-        Log.d("NAME", mWashroom.getName());
 
-        washroomName = (TextView) v.findViewById(R.id.washroom_details_name);
-        washroomName.setText(mWashroom.getName());
+        washroomNameTextView = (TextView) v.findViewById(R.id.washroom_details_name);
+        washroomNameTextView.setText(mWashroom.getName());
+
+        washroomRatingTextView = (TextView) v.findViewById(R.id.washroom_details_rating_value);
+        washroomRatingTextView.setText("" + mWashroom.getOverallRating());
 
         return v;
+    }
+
+    public Washroom getWashroom() {
+        return mWashroom;
     }
 
 }

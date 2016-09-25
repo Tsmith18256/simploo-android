@@ -9,5 +9,6 @@
     <color name="simplooDarkGrey">#AFACA7</color>
     <color name="simplooCharcoal">#2A2A2A</color>
     <color name="simplooHighlightPoo">#FFC25E</color>
-    <color name="simplooFragmentBg">#7f000000</color>
+
+    <color name="simplooOverlay">#11000000</color>
 </resources>
