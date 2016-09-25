@@ -272,7 +272,8 @@ public class MainActivity extends AppCompatActivity
         if (washroomDetailsFragment != null) {
             Washroom washroom = washroomDetailsFragment.getWashroom();
 
-            String mapArg = "google.navigation:q=" + washroom.getLatitude() + "," + washroom.getLongitude();
+            String mapArg = "geo:0,0?q=" + washroom.getLatitude() + "," + washroom.getLongitude();
+            mapArg += "(" + washroom.getName() + ")";
 
             Uri gmmIntentUri = Uri.parse(mapArg);
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
