@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onMarkerClick(Marker marker) {
                 Washroom washroom = allMarkersMap.get(marker);
 
+                hideDetails();
+
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 washroomDetailsFragment = WashroomDetailsFragment.newInstance(washroom);
@@ -175,10 +177,7 @@ public class MainActivity extends AppCompatActivity
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                if (washroomDetailsFragment != null) {
-                    washroomDetailsFragment.getView().setVisibility(View.GONE);
-                    washroomDetailsFragment = null;
-                }
+                hideDetails();
             }
         });
     }
@@ -261,6 +260,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void dismissFragment(View view) {
+        hideDetails();
+    }
+
+    private void hideDetails() {
         if (washroomDetailsFragment != null) {
             washroomDetailsFragment.getView().setVisibility(View.GONE);
             washroomDetailsFragment = null;

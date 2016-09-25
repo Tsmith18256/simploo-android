@@ -20,6 +20,8 @@ import com.simploo.simplooapp.DataModel.Washroom;
  */
 public class WashroomDetailsFragment extends Fragment {
 
+
+    private static float MAX_RATING = 5.0f;
     private Washroom mWashroom;
 
     private TextView washroomNameTextView;
@@ -53,7 +55,7 @@ public class WashroomDetailsFragment extends Fragment {
         washroomNameTextView.setText(mWashroom.getName());
 
         washroomRatingTextView = (TextView) v.findViewById(R.id.washroom_details_rating_value);
-        washroomRatingTextView.setText("" + mWashroom.getOverallRating());
+        washroomRatingTextView.setText("" + Math.round(mWashroom.getRating() * 10) / 10.0);
 
         washroomRatingBg = (FrameLayout) v.findViewById(R.id.washroom_details_rating_bar_bg);
         washroomRatingBar = (FrameLayout) v.findViewById(R.id.washroom_details_rating_bar);
@@ -65,7 +67,7 @@ public class WashroomDetailsFragment extends Fragment {
                 washroomRatingBg.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 int maxWidth = washroomRatingBg.getMeasuredWidth();
                 ViewGroup.LayoutParams lp = washroomRatingBar.getLayoutParams();
-                lp.width = Math.round(mWashroom.getOverallRating() / 5.0f * maxWidth);
+                lp.width = Math.round(mWashroom.getRating() / MAX_RATING * maxWidth);
                 washroomRatingBar.setLayoutParams(lp);
             }
         });

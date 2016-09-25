@@ -16,18 +16,14 @@ public class Washroom implements Serializable {
     private long id;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public long getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(long id) {
         this.id = id;
@@ -38,18 +34,14 @@ public class Washroom implements Serializable {
     private String name;
 
     /**
-     *
-     * @return
-     * The area name
+     * @return The area name
      */
     public String getName() {
         return name;
     }
 
     /**
-     *
-     * @param name
-     * The area name
+     * @param name The area name
      */
     public void setName(String name) {
         this.name = name;
@@ -60,18 +52,14 @@ public class Washroom implements Serializable {
     private String description;
 
     /**
-     *
-     * @return
-     * The description
+     * @return The description
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     *
-     * @param description
-     * The description
+     * @param description The description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -82,18 +70,14 @@ public class Washroom implements Serializable {
     private float latitude;
 
     /**
-     *
-     * @return
-     * The latitude of washroom location
+     * @return The latitude of washroom location
      */
     public float getLatitude() {
         return latitude;
     }
 
     /**
-     *
-     * @param latitude
-     * The latitude
+     * @param latitude The latitude
      */
     public void setLatitude(float latitude) {
         this.latitude = latitude;
@@ -104,18 +88,14 @@ public class Washroom implements Serializable {
     private float longitude;
 
     /**
-     *
-     * @return
-     * The longitude of washroom location
+     * @return The longitude of washroom location
      */
     public float getLongitude() {
         return longitude;
     }
 
     /**
-     *
-     * @param longitude
-     * The longitude
+     * @param longitude The longitude
      */
     public void setLongitude(float longitude) {
         this.longitude = longitude;
@@ -126,18 +106,14 @@ public class Washroom implements Serializable {
     private boolean hasWheelchairAccess;
 
     /**
-     *
-     * @return
-     * Wheelchair accessibility
+     * @return Wheelchair accessibility
      */
     public boolean isHasWheelchairAccess() {
         return hasWheelchairAccess;
     }
 
     /**
-     *
-     * @param hasWheelchairAccess
-     * Wheelchair accessibility
+     * @param hasWheelchairAccess Wheelchair accessibility
      */
     public void setHasWheelchairAccess(boolean hasWheelchairAccess) {
         this.hasWheelchairAccess = hasWheelchairAccess;
@@ -148,30 +124,28 @@ public class Washroom implements Serializable {
     private List<Washroom> washrooms = new ArrayList<Washroom>();
 
     /**
-     *
-     * @return
-     * The list of all washrooms
+     * @return The list of all washrooms
      */
     public List<Washroom> getWashrooms() {
         return washrooms;
     }
 
     /**
-     *
-     * @param washrooms
-     * The all the washrooms
+     * @param washrooms The all the washrooms
      */
     public void setWashrooms(List<Washroom> washrooms) {
         this.washrooms = washrooms;
     }
 
-    private float overallRating;
+    @SerializedName("rating")
+    @Expose
+    private float rating;
 
-    public float getOverallRating() {
-        return overallRating;
+    public float getRating() {
+        return rating;
     }
 
-    public void setOverallRating(float overallRating) {
-        this.overallRating = overallRating;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
