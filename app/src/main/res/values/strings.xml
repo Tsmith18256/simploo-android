@@ -8,4 +8,7 @@
     <string name="permission_rationale_location">We need your location.</string>
     <string name="permission_required_toast">Permission required.</string>
     <string name="location_permission_denied">Permission denied.</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="cancel_login">Facebook login cancelled</string>
+    <string name="error_login">Error: Failed to log into Facebook</string>
 </resources>

@@ -9,8 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Retrofit;
 
 /**
@@ -18,10 +17,11 @@ import retrofit2.Retrofit;
  */
 public class SimplooApplication extends Application {
 
-    private static final String BASE_URL = "http://10.10.39.35:5000";
+    private static final String BASE_URL = "http://192.168.1.78:5000";
     private Retrofit rf;
 
     private WashroomInterface washroomAPI;
+
 
     @Override
     public void onCreate() {
