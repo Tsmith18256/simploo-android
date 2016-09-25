@@ -45,4 +45,5 @@ public class SimplooApplication extends Application {
         Call<List<Washroom>> call = washroomAPI.allWashrooms();
         call.enqueue(cb);
     }
+
 }
