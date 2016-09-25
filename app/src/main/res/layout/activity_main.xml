@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,49 +9,68 @@
     tools:context="com.simploo.simplooapp.MainActivity"
     tools:ignore="MissingPrefix">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/simplooOffWhite">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@null"
-            android:onClick="goToSettings"
-            android:src="@drawable/ic_settings"/>
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_bar_height"
+            android:background="@color/simplooWhite">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="@string/activity_main_header_title"
+                android:textSize="@dimen/header_bar_title"/>
+
+            <ImageButton
+                android:id="@+id/settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@null"
+                android:onClick="goToSettings"
+                android:src="@drawable/ic_settings"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                map:cameraTargetLat="49.282"
+                map:cameraTargetLng="-123.1171"
+                map:cameraZoom="17"
+                map:mapType="normal"
+                map:uiZoomGestures="true"/>
+
+            <ImageButton
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="25dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/my_location_button_bg_shape"
+                android:onClick="centerCamera"
+                android:src="@drawable/ic_map_camera"/>
+        </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/washroom_details_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            map:cameraTargetLat="49.282"
-            map:cameraTargetLng="-123.1171"
-            map:cameraZoom="17"
-            map:mapType="normal"
-            map:uiZoomGestures="true"/>
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="25dp"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:onClick="centerCamera"
-            android:src="@drawable/ic_map_camera"/>
-
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -2,6 +2,7 @@
     <string name="app_name">Simploo App</string>
 
     <!--Main Activity Screen-->
+    <string name="activity_main_header_title">Simploo</string>
     <string name="activity_main_settings_button">Settings</string>
 
     <!--Permissions-->

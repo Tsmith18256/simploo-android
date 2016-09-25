@@ -1,10 +1,10 @@
 package com.simploo.simplooapp;
 
 import android.Manifest;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,9 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -26,17 +23,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.simploo.simplooapp.ApiClient.WashroomInterface;
 import com.simploo.simplooapp.DataModel.Washroom;
 import com.simploo.simplooapp.Util.PermissionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +44,6 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity
         implements
         OnMapReadyCallback,
-        GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMyLocationButtonClickListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -71,6 +67,9 @@ public class MainActivity extends AppCompatActivity
     GoogleApiClient mGoogleApiClient;
     private MapFragment mMapFragment;
     private GoogleMap mMap;
+    private Map<Marker, Washroom> allMarkersMap = new HashMap<Marker, Washroom>();
+
+    WashroomDetailsFragment washroomDetailsFragment;
 
     Location lastLoc;
 
@@ -96,10 +95,16 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<List<Washroom>> call, Response<List<Washroom>> response) {
                 List<Washroom> washroomList = response.body();
                 for (Washroom washroom : washroomList) {
+                    String title = washroom.getName();
                     LatLng latLng = new LatLng(washroom.getLatitude(), washroom.getLongitude());
-                    mMap.addMarker(new MarkerOptions()
+
+                    Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
-                            .icon(BitmapDescriptorFactory.fromAsset("icons/Map-Marker.png")));
+                            .icon(BitmapDescriptorFactory.fromAsset("icons/Map-Marker.png"))
+                            .title(title));
+
+                    /// We need this because Marker is a final class and we cannot extend it
+                    allMarkersMap.put(marker, washroom);
                 }
             }
 
@@ -148,6 +153,22 @@ public class MainActivity extends AppCompatActivity
 
         enableMyLocation();
         loadWashrooms();
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Washroom washroom = allMarkersMap.get(marker);
+
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                washroomDetailsFragment = WashroomDetailsFragment.newInstance(washroom);
+
+                ft.add(R.id.washroom_details_fragment_container, washroomDetailsFragment);
+                ft.commit();
+
+                return false;
+            }
+        });
     }
 
     @Override
@@ -205,18 +226,13 @@ public class MainActivity extends AppCompatActivity
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             lastLoc = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
             mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLoc.getLatitude(),
                     lastLoc.getLongitude())));
-
         }
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
     }
 
     /**
@@ -230,5 +246,12 @@ public class MainActivity extends AppCompatActivity
     public void centerCamera(View view) {
         mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLoc.getLatitude(),
                 lastLoc.getLongitude())));
+    }
+
+    public void dismissFragment(View view) {
+        if (washroomDetailsFragment !=null) {
+            washroomDetailsFragment.getView().setVisibility(View.GONE);
+            washroomDetailsFragment = null;
+        }
     }
 }

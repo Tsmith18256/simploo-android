@@ -3,13 +3,14 @@ package com.simploo.simplooapp.DataModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Jerry Tsai on 16-09-23.
  */
-public class Washroom {
+public class Washroom implements Serializable {
     @SerializedName("id")
     @Expose
     private long id;
